@@ -4,6 +4,7 @@ const cors = require('cors');
 const sequelize = require('./config/database');
 const User = require('./models/User');
 const Property = require('./models/Property');
+const Wallet = require('./models/Wallet');
 const userRoutes = require('./routes/userRoutes'); // Import des routes utilisateurs
 const propertyRoutes = require('./routes/propertyRoutes');
 const app = express();
