@@ -5,7 +5,7 @@ const sequelize = require('./config/database');
 const User = require('./models/User');
 const Property = require('./models/Property');
 const userRoutes = require('./routes/userRoutes'); // Import des routes utilisateurs
-
+const propertyRoutes = require('./routes/propertyRoutes');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -24,6 +24,7 @@ sequelize.sync({ force: false }) // `force: true` recrée les tables à chaque d
 
 // Routes
 app.use('/api/users', userRoutes); // Intégration des routes
+app.use('/api/properties', propertyRoutes);
 
 // Démarrage du serveur
 app.listen(PORT, () => {
