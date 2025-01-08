@@ -1,4 +1,5 @@
 const { DataTypes } = require('sequelize');
+const Property = require('./Property');
 const sequelize = require('../config/database');
 
 const User = sequelize.define('User', {
@@ -28,5 +29,9 @@ const User = sequelize.define('User', {
     tableName: 'users',
     timestamps: true,
 });
+
+// Un utilisateur (agent) peut gérer plusieurs propriétés
+User.hasMany(Property, { foreignKey: 'agent_id', as: 'properties' });
+Property.belongsTo(User, { foreignKey: 'agent_id', as: 'agent' });
 
 module.exports = User;
