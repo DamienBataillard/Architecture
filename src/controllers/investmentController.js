@@ -34,6 +34,12 @@ exports.createInvestment = async (req, res) => {
         wallet.balance -= amount;
         await wallet.save();
 
+        await Transaction.create({
+            user_id,
+            type: 'withdrawal',
+            amount,
+        });
+
         res.status(201).json({ message: 'Investment created successfully', investment });
     } catch (error) {
         res.status(500).json({ message: 'Error creating investment', error });

@@ -1,4 +1,5 @@
 const Wallet = require('../models/Wallet');
+const Transaction = require('../models/Transaction');
 
 // Afficher le solde d'un utilisateur
 exports.getWallet = async (req, res) => {
@@ -34,5 +35,30 @@ exports.depositMoney = async (req, res) => {
         res.status(200).json({ message: 'Money deposited successfully', wallet });
     } catch (error) {
         res.status(500).json({ message: 'Error depositing money', error });
+    }
+};
+
+exports.addFunds = async (req, res) => {
+    const { user_id, amount } = req.body;
+
+    try {
+        let wallet = await Wallet.findOne({ where: { user_id } });
+        if (!wallet) {
+            wallet = await Wallet.create({ user_id, balance: 0 });
+        }
+
+        wallet.balance += parseFloat(amount);
+        await wallet.save();
+
+        // Enregistrer la transaction
+        await Transaction.create({
+            user_id,
+            type: 'deposit',
+            amount,
+        });
+
+        res.status(200).json({ message: 'Funds added successfully', wallet });
+    } catch (error) {
+        res.status(500).json({ message: 'Error adding funds', error });
     }
 };

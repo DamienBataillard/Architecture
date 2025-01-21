@@ -6,6 +6,7 @@ const investmentRoutes = require('./routes/investmentRoutes');
 const userRoutes = require('./routes/userRoutes'); // Import des routes utilisateurs
 const propertyRoutes = require('./routes/propertyRoutes');
 const walletRoutes = require('./routes/walletRoutes');
+const transactionRoutes = require('./routes/transactionRoutes');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -27,6 +28,7 @@ app.use('/api/users', userRoutes); // Intégration des routes
 app.use('/api/properties', propertyRoutes);
 app.use('/api/wallets', walletRoutes);
 app.use('/api/investments', investmentRoutes);
+app.use('/api/transactions', transactionRoutes);
 
 // Démarrage du serveur
 app.listen(PORT, () => {
