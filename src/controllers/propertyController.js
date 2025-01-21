@@ -12,15 +12,26 @@ exports.createProperty = async (req, res) => {
     }
 };
 
-// Lister les propriétés ouvertes au financement
-exports.getOpenProperties = async (req, res) => {
+// Lister les propriétés (toutes pour les agents, ouvertes pour les autres)
+exports.getProperties = async (req, res) => {
     try {
-        const properties = await Property.findAll({ where: { status: 'open' } });
+        const userRole = req.user.role; // Récupère le rôle depuis le token JWT
+
+        let properties;
+        if (userRole === 'agent') {
+            // Les agents peuvent voir toutes les propriétés
+            properties = await Property.findAll();
+        } else {
+            // Les autres utilisateurs ne voient que les propriétés "open"
+            properties = await Property.findAll({ where: { status: 'open' } });
+        }
+
         res.status(200).json(properties);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching properties', error });
     }
 };
+
 
 // Mettre à jour une propriété
 exports.updateProperty = async (req, res) => {
@@ -31,6 +42,11 @@ exports.updateProperty = async (req, res) => {
         const property = await Property.findByPk(id);
         if (!property) {
             return res.status(404).json({ message: 'Property not found' });
+        }
+
+        // Vérifie que la propriété n'est pas encore lancée pour le financement
+        if (property.status !== 'pending') {
+            return res.status(400).json({ message: 'Cannot update property after funding has started' });
         }
 
         await property.update(updates);
@@ -48,6 +64,11 @@ exports.deleteProperty = async (req, res) => {
         const property = await Property.findByPk(id);
         if (!property) {
             return res.status(404).json({ message: 'Property not found' });
+        }
+
+        // Vérifie que la propriété n'est pas encore lancée pour le financement
+        if (property.status !== 'pending') {
+            return res.status(400).json({ message: 'Cannot delete property after funding has started' });
         }
 
         await property.destroy();

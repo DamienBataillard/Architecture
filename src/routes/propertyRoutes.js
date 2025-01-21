@@ -9,6 +9,6 @@ router.put('/:id', verifyToken, checkRole(['agent']), propertyController.updateP
 router.delete('/:id', verifyToken, checkRole(['agent']), propertyController.deleteProperty);
 
 // Routes accessibles à tous
-router.get('/', verifyToken, propertyController.getOpenProperties);
+router.get('/', verifyToken, propertyController.getProperties);
 
 module.exports = router;
