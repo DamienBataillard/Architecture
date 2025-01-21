@@ -1,4 +1,5 @@
 const { DataTypes } = require('sequelize');
+const Investment = require('./Investment');
 const sequelize = require('../config/database');
 
 const Property = sequelize.define('Property', {
@@ -34,5 +35,8 @@ const Property = sequelize.define('Property', {
     tableName: 'properties',
     timestamps: true,
 });
+
+Property.hasMany(Investment, { foreignKey: 'property_id', as: 'investments' });
+Investment.belongsTo(Property, { foreignKey: 'property_id', as: 'property' });
 
 module.exports = Property;

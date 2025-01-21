@@ -2,9 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const sequelize = require('./config/database');
-const User = require('./models/User');
-const Property = require('./models/Property');
-const Wallet = require('./models/Wallet');
+const investmentRoutes = require('./routes/investmentRoutes');
 const userRoutes = require('./routes/userRoutes'); // Import des routes utilisateurs
 const propertyRoutes = require('./routes/propertyRoutes');
 const walletRoutes = require('./routes/walletRoutes');
@@ -28,6 +26,7 @@ sequelize.sync({ force: false }) // `force: true` recrée les tables à chaque d
 app.use('/api/users', userRoutes); // Intégration des routes
 app.use('/api/properties', propertyRoutes);
 app.use('/api/wallets', walletRoutes);
+app.use('/api/investments', investmentRoutes);
 
 // Démarrage du serveur
 app.listen(PORT, () => {
