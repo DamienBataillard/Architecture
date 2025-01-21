@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('./scheduler/rentalScheduler');
 const express = require('express');
 const cors = require('cors');
 const sequelize = require('./config/database');
@@ -7,6 +8,8 @@ const userRoutes = require('./routes/userRoutes'); // Import des routes utilisat
 const propertyRoutes = require('./routes/propertyRoutes');
 const walletRoutes = require('./routes/walletRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
+const rentalIncomeRoutes = require('./routes/rentalIncomeRoutes');
+const authRoutes = require('./routes/authRoutes');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -25,10 +28,12 @@ sequelize.sync({ force: false }) // `force: true` recrée les tables à chaque d
 
 // Routes
 app.use('/api/users', userRoutes); // Intégration des routes
+app.use('/api/auth', authRoutes);
 app.use('/api/properties', propertyRoutes);
 app.use('/api/wallets', walletRoutes);
 app.use('/api/investments', investmentRoutes);
 app.use('/api/transactions', transactionRoutes);
+app.use('/api/rental-income', rentalIncomeRoutes);
 
 // Démarrage du serveur
 app.listen(PORT, () => {

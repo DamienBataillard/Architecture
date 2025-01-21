@@ -57,3 +57,31 @@ exports.getInvestmentsByUser = async (req, res) => {
         res.status(500).json({ message: 'Error fetching investments', error });
     }
 };
+
+exports.refundInvestors = async (property_id) => {
+    try {
+        const investments = await Investment.findAll({ where: { property_id } });
+
+        for (const investment of investments) {
+            const wallet = await Wallet.findOne({ where: { user_id: investment.user_id } });
+
+            if (wallet) {
+                wallet.balance += investment.amount;
+                await wallet.save();
+
+                // Enregistrer la transaction de remboursement
+                await Transaction.create({
+                    user_id: investment.user_id,
+                    type: 'refund',
+                    amount: investment.amount,
+                });
+            }
+
+            await investment.destroy(); // Supprimer l'investissement
+        }
+
+        console.log(`Refunds completed for property ID: ${property_id}`);
+    } catch (error) {
+        console.error('Error processing refunds:', error);
+    }
+};

@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const walletController = require('../controllers/walletController');
+const { verifyToken, checkRole } = require('../middleware/authMiddleware');
 
-// Routes pour les portefeuilles
-router.get('/:userId', walletController.getWallet); // Afficher le solde d'un utilisateur
-router.post('/deposit', walletController.depositMoney); // Ajouter de l'argent au portefeuille
+// Protéger les routes avec le middleware
+router.get('/:userId', verifyToken, checkRole(['investor']), walletController.getWallet);
+router.post('/add-funds', verifyToken, checkRole(['investor']), walletController.addFunds);
 
 module.exports = router;

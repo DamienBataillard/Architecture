@@ -3,6 +3,7 @@ const Property = require('./Property');
 const Wallet = require('./Wallet');
 const Investment = require('./Investment');
 const sequelize = require('../config/database');
+const bcrypt = require('bcrypt');
 
 const User = sequelize.define('User', {
     id: {
@@ -24,14 +25,27 @@ const User = sequelize.define('User', {
         allowNull: false,
     },
     role: {
-        type: DataTypes.ENUM('investor', 'agent'), // Définition des rôles possibles
+        type: DataTypes.ENUM('investor', 'agent'),
         allowNull: false,
     },
 }, {
     tableName: 'users',
     timestamps: true,
+    hooks: {
+        beforeCreate: async (user) => {
+            if (user.password) {
+                const salt = await bcrypt.genSalt(10);
+                user.password = await bcrypt.hash(user.password, salt);
+            }
+        },
+        beforeUpdate: async (user) => {
+            if (user.changed('password')) {
+                const salt = await bcrypt.genSalt(10);
+                user.password = await bcrypt.hash(user.password, salt);
+            }
+        },
+    },
 });
-
 
 User.hasMany(Property, { foreignKey: 'agent_id', as: 'properties' });
 Property.belongsTo(User, { foreignKey: 'agent_id', as: 'agent' });

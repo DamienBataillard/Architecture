@@ -1,11 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const propertyController = require('../controllers/propertyController');
+const { verifyToken, checkRole } = require('../middleware/authMiddleware');
 
-// Routes pour les propriétés
-router.post('/', propertyController.createProperty); // Ajouter une propriété
-router.get('/', propertyController.getOpenProperties); // Lister les propriétés ouvertes
-router.put('/:id', propertyController.updateProperty); // Mettre à jour une propriété
-router.delete('/:id', propertyController.deleteProperty); // Supprimer une propriété
+// Routes protégées pour les agents
+router.post('/', verifyToken, checkRole(['agent']), propertyController.createProperty);
+router.put('/:id', verifyToken, checkRole(['agent']), propertyController.updateProperty);
+router.delete('/:id', verifyToken, checkRole(['agent']), propertyController.deleteProperty);
+
+// Routes accessibles à tous
+router.get('/', verifyToken, propertyController.getOpenProperties);
 
 module.exports = router;
