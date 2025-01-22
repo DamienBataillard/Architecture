@@ -2,6 +2,7 @@ require('dotenv').config();
 require('./scheduler/rentalScheduler');
 const express = require('express');
 const cors = require('cors');
+const cronJobs = require('./cronJobs');
 const sequelize = require('./config/database');
 const investmentRoutes = require('./routes/investmentRoutes');
 const userRoutes = require('./routes/userRoutes'); // Import des routes utilisateurs
@@ -25,6 +26,8 @@ sequelize.authenticate()
 sequelize.sync({ force: false }) // `force: true` recrée les tables à chaque démarrage
     .then(() => console.log('Database synced'))
     .catch(err => console.error('Sync error:', err));
+
+cronJobs;
 
 // Routes
 app.use('/api/users', userRoutes); // Intégration des routes
