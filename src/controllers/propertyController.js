@@ -23,7 +23,7 @@ exports.getProperties = async (req, res) => {
             properties = await Property.findAll();
         } else {
             // Les autres utilisateurs ne voient que les propriétés "open"
-            properties = await Property.findAll({ where: { status: 'open' } });
+            properties = await Property.findAll({ where: { status: 'open' }, limit : 6});
         }
 
         res.status(200).json(properties);

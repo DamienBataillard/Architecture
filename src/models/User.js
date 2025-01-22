@@ -28,6 +28,18 @@ const User = sequelize.define('User', {
         type: DataTypes.ENUM('investor', 'agent'),
         allowNull: false,
     },
+    phone: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    address: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    date_of_birth: {
+        type: DataTypes.DATE,
+        allowNull: true,
+    },
 }, {
     tableName: 'users',
     timestamps: true,
