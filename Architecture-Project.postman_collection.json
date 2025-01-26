@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Jane Doe\",\r\n    \"email\": \"jane.doe@example.com\",\r\n    \"password\": \"securepassword\",\r\n    \"role\": \"investor\"\r\n}\r\n",
+							"raw": "{\r\n    \"name\": \"John Doe\",\r\n    \"email\": \"johndoe@example.com\",\r\n    \"password\": \"securepassword\",\r\n    \"role\": \"investor\",\r\n    \"phone\": \"0123456789\",\r\n    \"address\": \"123 Main St\",\r\n    \"date_of_birth\": \"1990-01-01\"\r\n}\r\n\r\n\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -42,15 +42,49 @@
 					"name": "Print Users",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Login",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"johndoe@example.com\",\r\n    \"password\": \"securepassword\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
 					},
 					"response": []
 				}
@@ -62,8 +96,35 @@
 				{
 					"name": "Add properties",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInJvbGUiOiJhZ2VudCIsImlhdCI6MTczNzQ1MzU3NywiZXhwIjoxNzM3NDU3MTc3fQ.7kBkrsJ7nhK3wg7BU1Rb6Yy-h56m8AnWlueRgMMgs_I",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Beautiful Apartment\",\r\n    \"description\": \"A modern 3-bedroom apartment.\",\r\n    \"price\": 250000,\r\n    \"type\": \"apartment\",\r\n    \"agent_id\": 4\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/properties",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"properties"
+							]
+						}
 					},
 					"response": []
 				},
@@ -71,7 +132,13 @@
 					"name": "Print properties",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInJvbGUiOiJpbnZlc3RvciIsImlhdCI6MTczNzQ1NDM3OCwiZXhwIjoxNzM3NDU3OTc4fQ.iKCHvqFBzczwrAGMP5T_5hpMZKTfibUVXX93ZMIxux8",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://localhost:3000/api/properties",
 							"protocol": "http",
@@ -90,8 +157,42 @@
 				{
 					"name": "Update properties",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInJvbGUiOiJhZ2VudCIsImlhdCI6MTczNzQ1NDE0MSwiZXhwIjoxNzM3NDU3NzQxfQ.110_u2DoE3n0C9Ojef7ZHmAGn19EwEGZLo1NewGoLEU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"An updated description for the apartment.\",\r\n    \"price\": 300000\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/properties/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"properties",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "5"
+								}
+							]
+						}
 					},
 					"response": []
 				},
