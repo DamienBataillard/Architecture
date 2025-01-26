@@ -14,22 +14,58 @@ exports.getAllUsers = async (req, res) => {
 
 // Inscription d'un utilisateur
 exports.registerUser = async (req, res) => {
-    const { name, email, password, role } = req.body;
+    const { name, email, password, role, phone, address, date_of_birth } = req.body;
 
+    // Vérification des champs requis
     if (!name || !email || !password || !role) {
-        return res.status(400).json({ message: 'All fields are required' });
+        return res.status(400).json({ message: 'Name, email, password, and role are required' });
+    }
+
+    // Validation des données
+    if (phone && !/^\d{10,15}$/.test(phone)) {
+        return res.status(400).json({ message: 'Invalid phone number format. Must be between 10 and 15 digits.' });
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({ message: 'Invalid email format' });
+    }
+
+    if (password.length < 6) {
+        return res.status(400).json({ message: 'Password must be at least 6 characters long' });
+    }
+
+    if (!['investor', 'agent'].includes(role)) {
+        return res.status(400).json({ message: 'Role must be either "investor" or "agent"' });
     }
 
     try {
-        const existingUser = await User.findOne({ where: { email } });
+        // Vérifier si l'utilisateur existe déjà
+        const existingUser = await User.findOne({ where: { email: email.toLowerCase() } });
         if (existingUser) {
             return res.status(400).json({ message: 'Email already in use' });
         }
 
+        // Hashage du mot de passe
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await User.create({ name, email, password: hashedPassword, role });
-        res.status(201).json({ message: 'User created successfully', user });
+
+        // Création de l'utilisateur
+        const user = await User.create({
+            name,
+            email: email.toLowerCase(), // Normalisation de l'e-mail
+            password: hashedPassword,
+            role,
+            phone: phone || null,
+            address: address || null,
+            date_of_birth: date_of_birth || null,
+        });
+
+        // Supprimer le mot de passe de la réponse
+        const { password: _, ...userWithoutPassword } = user.toJSON();
+
+        res.status(201).json({ message: 'User created successfully', user: userWithoutPassword });
     } catch (error) {
+        console.error('Error creating user:', error);
         res.status(500).json({ message: 'Error creating user', error });
     }
 };

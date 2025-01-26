@@ -18,16 +18,16 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+cronJobs;
+
 // Test de la base de données
 sequelize.authenticate()
     .then(() => console.log('Database connected'))
     .catch(err => console.error('Database connection failed:', err));
 
-sequelize.sync({ force: false }) // `force: true` recrée les tables à chaque démarrage
+sequelize.sync({ alter: true  }) // `force: true` recrée les tables à chaque démarrage
     .then(() => console.log('Database synced'))
     .catch(err => console.error('Sync error:', err));
-
-cronJobs;
 
 // Routes
 app.use('/api/users', userRoutes); // Intégration des routes
