@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "66c6863c-571d-4876-a9b8-7cf53dedd5fd",
+		"_postman_id": "9b0ec815-8d90-43ed-b697-9a0ea4f14ce7",
 		"name": "Architecture-Project",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "36371010"
@@ -10,13 +10,13 @@
 			"name": "Users",
 			"item": [
 				{
-					"name": "Add Users",
+					"name": "Register User",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"John Doe\",\r\n    \"email\": \"johndoe@example.com\",\r\n    \"password\": \"securepassword\",\r\n    \"role\": \"investor\",\r\n    \"phone\": \"0123456789\",\r\n    \"address\": \"123 Main St\",\r\n    \"date_of_birth\": \"1990-01-01\"\r\n}\r\n\r\n\r\n",
+							"raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"johndoe@example.com\",\n    \"password\": \"securepassword\",\n    \"role\": \"investor\",\n    \"phone\": \"0123456789\",\n    \"address\": \"123 Main St\",\n    \"date_of_birth\": \"1990-01-01\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -24,7 +24,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/users",
+							"raw": "http://localhost:3000/api/auth/register",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -32,27 +32,8 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Print Users",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/users",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"users"
+								"auth",
+								"register"
 							]
 						}
 					},
@@ -65,7 +46,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"johndoe@example.com\",\r\n    \"password\": \"securepassword\"\r\n}\r\n",
+							"raw": "{\n    \"email\": \"johndoe@example.com\",\n    \"password\": \"securepassword\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -87,6 +68,26 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -94,19 +95,19 @@
 			"name": "Properties",
 			"item": [
 				{
-					"name": "Add properties",
+					"name": "Add Property",
 					"request": {
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInJvbGUiOiJhZ2VudCIsImlhdCI6MTczNzQ1MzU3NywiZXhwIjoxNzM3NDU3MTc3fQ.7kBkrsJ7nhK3wg7BU1Rb6Yy-h56m8AnWlueRgMMgs_I",
+								"value": "<INSERT_YOUR_TOKEN_HERE>",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Beautiful Apartment\",\r\n    \"description\": \"A modern 3-bedroom apartment.\",\r\n    \"price\": 250000,\r\n    \"type\": \"apartment\",\r\n    \"agent_id\": 4\r\n}\r\n",
+							"raw": "{\n    \"name\": \"Modern Apartment\",\n    \"description\": \"A 3-bedroom modern apartment.\",\n    \"price\": 300000,\n    \"type\": \"apartment\",\n    \"agent_id\": 1\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -129,13 +130,13 @@
 					"response": []
 				},
 				{
-					"name": "Print properties",
+					"name": "Get Properties",
 					"request": {
 						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInJvbGUiOiJpbnZlc3RvciIsImlhdCI6MTczNzQ1NDM3OCwiZXhwIjoxNzM3NDU3OTc4fQ.iKCHvqFBzczwrAGMP5T_5hpMZKTfibUVXX93ZMIxux8",
+								"value": "<INSERT_YOUR_TOKEN_HERE>",
 								"type": "text"
 							}
 						],
@@ -155,19 +156,19 @@
 					"response": []
 				},
 				{
-					"name": "Update properties",
+					"name": "Update Property",
 					"request": {
 						"method": "PUT",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInJvbGUiOiJhZ2VudCIsImlhdCI6MTczNzQ1NDE0MSwiZXhwIjoxNzM3NDU3NzQxfQ.110_u2DoE3n0C9Ojef7ZHmAGn19EwEGZLo1NewGoLEU",
+								"value": "<INSERT_YOUR_TOKEN_HERE>",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"description\": \"An updated description for the apartment.\",\r\n    \"price\": 300000\r\n}\r\n",
+							"raw": "{\n    \"description\": \"Updated description for the property.\",\n    \"price\": 350000\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -175,7 +176,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/properties/:id",
+							"raw": "http://localhost:3000/api/properties/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -184,36 +185,103 @@
 							"path": [
 								"api",
 								"properties",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "5"
-								}
+								"1"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "Delete Property",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "<INSERT_YOUR_TOKEN_HERE>",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/properties/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"properties",
+								"1"
+							]
+						}
 					},
 					"response": []
 				}
 			]
 		},
 		{
-			"name": "Investements",
+			"name": "Investments",
 			"item": [
 				{
-					"name": "Invest",
+					"name": "Make Investment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "<INSERT_YOUR_TOKEN_HERE>",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": 1,\n    \"property_id\": 1,\n    \"amount\": 10000\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/investments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"investments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Investments",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "<INSERT_YOUR_TOKEN_HERE>",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/investments/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"investments",
+								"1"
+							]
+						}
 					},
 					"response": []
 				}
