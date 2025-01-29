@@ -46,7 +46,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"damiebtd@gmail.com\",\n    \"password\": \"securepassword\"\n}\n",
+							"raw": "{\n    \"email\": \"alice@example.com\",\n    \"password\": \"securepassword\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -101,7 +101,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "<INSERT_YOUR_TOKEN_HERE>",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInJvbGUiOiJhZ2VudCIsImlhdCI6MTczODE0NTM4MiwiZXhwIjoxNzM4MTQ4OTgyfQ.ORv3X2Jm4t1lH9HbULnXJMvMbK6gQvXW04NwS6Z9QT8",
 								"type": "text"
 							}
 						],
@@ -230,13 +230,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGUiOiJpbnZlc3RvciIsImlhdCI6MTczODE0MDc5NiwiZXhwIjoxNzM4MTQ0Mzk2fQ._PneaRL4x4YGYeMoRfMfxAEl1_OmA-DOb2l2RXWsfb4",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGUiOiJpbnZlc3RvciIsImlhdCI6MTczODE0ODEyNiwiZXhwIjoxNzM4MTUxNzI2fQ.7ILbImL3ovnuwDizAb5tnipIh3ti0O2sNGPfkmh8irU",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"user_id\": 1,\n    \"property_id\": 1,\n    \"amount\": 10000\n}\n",
+							"raw": "{\n    \"user_id\": 1,\n    \"property_id\": 1,\n    \"amount\": 300000\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -284,6 +284,33 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Refund",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGUiOiJpbnZlc3RvciIsImlhdCI6MTczODE0NTc5NywiZXhwIjoxNzM4MTQ5Mzk3fQ.2YfRwbhkuAM-XW_ElIf56l-soKEe9GoO4D6ZNtAiX08",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/refunds/trigger",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"refunds",
+								"trigger"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -297,13 +324,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGUiOiJpbnZlc3RvciIsImlhdCI6MTczODE0NDQ5NCwiZXhwIjoxNzM4MTQ4MDk0fQ.fqDBNOplKm68ovYqhh4J7vFuaM0PJIguZQPou93TRg0",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGUiOiJpbnZlc3RvciIsImlhdCI6MTczODE0ODEyNiwiZXhwIjoxNzM4MTUxNzI2fQ.7ILbImL3ovnuwDizAb5tnipIh3ti0O2sNGPfkmh8irU",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user_id\": 1,\r\n    \"amount\": 5000,\r\n    \"paymentMethodId\": \"pm_card_visa\"\r\n}\r\n",
+							"raw": "{\r\n    \"user_id\": 1,\r\n    \"amount\": 300000,\r\n    \"paymentMethodId\": \"pm_card_visa\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -348,6 +375,47 @@
 								"api",
 								"wallets",
 								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rental Income",
+			"item": [
+				{
+					"name": "Distribute",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGUiOiJpbnZlc3RvciIsImlhdCI6MTczODE0ODEyNiwiZXhwIjoxNzM4MTUxNzI2fQ.7ILbImL3ovnuwDizAb5tnipIh3ti0O2sNGPfkmh8irU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"property_id\": 1,\r\n    \"total_income\": 5000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/rental-income/distribute",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"rental-income",
+								"distribute"
 							]
 						}
 					},
