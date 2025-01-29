@@ -1,7 +1,5 @@
 const fs = require("fs");
 const path = require("path");
-const bcrypt = require("bcrypt");
-const { Sequelize } = require("sequelize");
 const mysql = require("mysql2/promise");
 const sequelize = require("./config/database");
 const User = require("./models/User");
@@ -14,6 +12,8 @@ require("dotenv").config();
 async function createDatabase() {
   try {
     console.log("🔄 Checking if database exists...");
+    
+    console.log(process.env.DB_HOST)
 
     // Create a connection without specifying the database
     const connection = await mysql.createConnection({

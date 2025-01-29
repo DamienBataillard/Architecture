@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "seed": "node seedDatabase.js",
-    "postinstall": "node setupDatabase.js"
+    "start": "node ./src/app.js",
+    "seed": "node ./src/seedDatabase.js",
+    "postinstall": "node ./src/setupDatabase.js"
   },
   "keywords": [],
   "author": "",
