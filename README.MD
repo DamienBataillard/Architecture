@@ -40,13 +40,17 @@ Assurez-vous d'avoir les outils suivants installés sur votre machine :
 ## Installation
 
 ### 1️⃣ Cloner le projet
-
 ```sh
 $ git clone https://github.com/DamienBataillard/Architecture.git
 $ cd Architecture
 ```
 
-### 2️⃣ Configurer les variables d'environnement
+### 2️⃣ Installer les dépendances
+```sh
+$ npm install
+```
+
+### 3️⃣ Configurer les variables d'environnement
 Créez un fichier `.env` à la racine du projet et ajoutez-y les informations suivantes :
 
 ```env
@@ -61,25 +65,27 @@ DB_PORT=your_database_port
 PORT=your_server_port
 
 # Clé secrète pour JWT
-JWT_SECRET=cp12adzd
+JWT_SECRET=your_jwt_secret_key
 
 # Clé secrète Stripe
 STRIPE_SECRET_KEY=your_stripe_secret_key
 
 # Configuration SMTP pour l'envoi d'e-mails
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=465
+SMTP_HOST=your_smtp_host
+SMTP_PORT=your_smtp_port
 SMTP_USER=your_smtp_email
 SMTP_PASS=your_smtp_password
-SMTP_SECURE=true
+SMTP_SECURE=true_or_false
 ```
 
-### 3️⃣ Installer les dépendances
+### 4️⃣ Synchroniser et peupler la base de données
 ```sh
-$ npm install
+$ npm run setup-db
 ```
 
-### 4️⃣ Lancer le serveur
+Ce script crée la base de données si elle n'existe pas, applique les migrations et peuple la base de données avec des données initiales.
+
+### 5️⃣ Lancer le serveur
 ```sh
 $ npm start
 ```
@@ -95,6 +101,7 @@ Le serveur sera accessible à l'adresse **http://localhost:3000** 🎉
 |---------|----------------------|----------------------------------|
 | POST    | `/api/auth/register` | Inscription d'un utilisateur    |
 | POST    | `/api/auth/login`    | Connexion et génération de JWT  |
+| GET     | `/api/users`         | Liste des utilisateurs          |
 
 ### 🏠 Gestion des Propriétés (Agents uniquement)
 | Méthode | Endpoint                | Description                          |
@@ -108,7 +115,8 @@ Le serveur sera accessible à l'adresse **http://localhost:3000** 🎉
 | Méthode | Endpoint                | Description                        |
 |---------|------------------------|------------------------------------|
 | POST    | `/api/investments`     | Créer un nouvel investissement    |
-| GET     | `/api/investments/:userId` | Liste des investissements d'un utilisateur |
+| GET     | `/api/investments/portfolio` | Liste des investissements d'un utilisateur |
+| POST    | `/api/refunds/trigger`  | Déclencher les remboursements     |
 
 ### 🔄 Transactions
 | Méthode | Endpoint                | Description                        |
@@ -124,8 +132,7 @@ Le serveur sera accessible à l'adresse **http://localhost:3000** 🎉
 ### 💸 Revenus Locatifs & Remboursements
 | Méthode | Endpoint                | Description                        |
 |---------|------------------------|------------------------------------|
-| GET     | `/api/rental-income/:userId` | Voir les revenus locatifs          |
-| POST    | `/api/refunds/process`  | Déclencher manuellement les remboursements |
+| POST    | `/api/rental-income/distribute` | Distribuer les revenus locatifs |
 
 ---
 
@@ -136,4 +143,5 @@ Si vous utilisez **Gmail**, vous devez générer un **Mot de passe d'application
 2. Générez un **Mot de passe d'application** depuis [Google Account Security](https://myaccount.google.com/security).
 3. Utilisez ce mot de passe pour `SMTP_PASS` dans le fichier `.env`.
 
+![Mail de reçu](assets/Mail%20de%20reçu.png)
 
