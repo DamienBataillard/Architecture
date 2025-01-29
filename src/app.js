@@ -8,6 +8,7 @@ const investmentRoutes = require('./routes/investmentRoutes');
 const userRoutes = require('./routes/userRoutes'); // Import des routes utilisateurs
 const propertyRoutes = require('./routes/propertyRoutes');
 const walletRoutes = require('./routes/walletRoutes');
+const refundRoutes = require("./routes/refundRoutes");
 const transactionRoutes = require('./routes/transactionRoutes');
 const rentalIncomeRoutes = require('./routes/rentalIncomeRoutes');
 const authRoutes = require('./routes/authRoutes');
@@ -35,6 +36,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/properties', propertyRoutes);
 app.use('/api/wallets', walletRoutes);
 app.use('/api/investments', investmentRoutes);
+app.use("/api/refunds", refundRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/rental-income', rentalIncomeRoutes);
 

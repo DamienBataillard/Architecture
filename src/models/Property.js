@@ -22,7 +22,7 @@ const Property = sequelize.define(
         allowNull: false,
       },
       status: {
-        type: DataTypes.ENUM("pending", "open", "funded"),
+        type: DataTypes.ENUM("pending", "open", "funded", 'failed'),
         defaultValue: "pending",
       },
       type: {
