@@ -45,12 +45,7 @@ $ git clone https://github.com/DamienBataillard/Architecture.git
 $ cd Architecture
 ```
 
-### 2️⃣ Installer les dépendances
-```sh
-$ npm install
-```
-
-### 3️⃣ Configurer les variables d'environnement
+### 2️⃣ Configurer les variables d'environnement
 Créez un fichier `.env` à la racine du projet et ajoutez-y les informations suivantes :
 
 ```env
@@ -78,14 +73,12 @@ SMTP_PASS=your_smtp_password
 SMTP_SECURE=true_or_false
 ```
 
-### 4️⃣ Synchroniser et peupler la base de données
+### 3️⃣ Installer les dépendances
 ```sh
-$ npm run setup-db
+$ npm install
 ```
 
-Ce script crée la base de données si elle n'existe pas, applique les migrations et peuple la base de données avec des données initiales.
-
-### 5️⃣ Lancer le serveur
+### 4️⃣ Lancer le serveur
 ```sh
 $ npm start
 ```
