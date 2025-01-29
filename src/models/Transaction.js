@@ -1,7 +1,7 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/database");
 
-const Transaction = sequelize.define('Transaction', {
+const Transaction = sequelize.define("Transaction", {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -12,16 +12,20 @@ const Transaction = sequelize.define('Transaction', {
         allowNull: false,
     },
     type: {
-        type: DataTypes.ENUM('deposit', 'withdrawal', 'refund'),
+        type: DataTypes.ENUM("deposit", "withdrawal", "refund"),
         allowNull: false,
     },
     amount: {
         type: DataTypes.FLOAT,
         allowNull: false,
     },
+    createdAt: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+    },
 }, {
-    tableName: 'transactions',
-    timestamps: true,
+    tableName: "transactions",
+    timestamps: false,
 });
 
 module.exports = Transaction;

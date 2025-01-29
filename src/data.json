@@ -26,7 +26,8 @@
         "price": 500000,
         "status": "open",
         "type": "apartment",
-        "agent_id": 2
+        "agent_id": 2,
+        "funding_deadline": "2025-03-29T00:00:00Z"
       },
       {
         "name": "Downtown Office",
@@ -34,7 +35,8 @@
         "price": 1200000,
         "status": "pending",
         "type": "building",
-        "agent_id": 2
+        "agent_id": 2,
+        "funding_deadline": "2025-04-15T00:00:00Z"
       }
     ],
     "wallets": [

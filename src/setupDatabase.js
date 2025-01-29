@@ -33,7 +33,7 @@ async function checkAndSetupDatabase() {
     await connection.end();
 
     // Run the seed script
-    exec("node seedDatabase.js", (error, stdout, stderr) => {
+    exec("node ./src/seedDatabase.js", (error, stdout, stderr) => {
       if (error) {
         console.error(`❌ Error running seedDatabase.js:`, error);
         return;

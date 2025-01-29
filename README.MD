@@ -61,17 +61,17 @@ DB_PORT=your_database_port
 PORT=your_server_port
 
 # Clé secrète pour JWT
-JWT_SECRET=your_jwt_secret_key
+JWT_SECRET=cp12adzd
 
 # Clé secrète Stripe
 STRIPE_SECRET_KEY=your_stripe_secret_key
 
 # Configuration SMTP pour l'envoi d'e-mails
-SMTP_HOST=your_smtp_host
-SMTP_PORT=your_smtp_port
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=465
 SMTP_USER=your_smtp_email
 SMTP_PASS=your_smtp_password
-SMTP_SECURE=true_or_false
+SMTP_SECURE=true
 ```
 
 ### 3️⃣ Installer les dépendances
@@ -79,14 +79,7 @@ SMTP_SECURE=true_or_false
 $ npm install
 ```
 
-### 4️⃣ Synchroniser et peupler la base de données
-```sh
-$ npm run setup-db
-```
-
-Ce script crée la base de données si elle n'existe pas, applique les migrations et peuple la base de données avec des données initiales.
-
-### 5️⃣ Lancer le serveur
+### 4️⃣ Lancer le serveur
 ```sh
 $ npm start
 ```
@@ -143,33 +136,4 @@ Si vous utilisez **Gmail**, vous devez générer un **Mot de passe d'application
 2. Générez un **Mot de passe d'application** depuis [Google Account Security](https://myaccount.google.com/security).
 3. Utilisez ce mot de passe pour `SMTP_PASS` dans le fichier `.env`.
 
----
-
-## ❓ Dépannage
-
-### 📌 1. Problèmes de connexion MySQL
-- Vérifiez que **MySQL est en cours d'exécution** :
-```sh
-$ sudo service mysql start  # Linux / Mac
-$ net start MySQL  # Windows
-```
-- Vérifiez que les informations de votre `.env` correspondent à votre configuration MySQL.
-
-### 📌 2. Erreurs de paiement Stripe
-- Vérifiez que vous utilisez des **cartes de test Stripe** (ex: `4242 4242 4242 4242`).
-- Assurez-vous que `allow_redirects: "never"` est bien configuré.
-
-### 📌 3. Problèmes d'envoi d'e-mails
-- Vérifiez que `SMTP_USER` et `SMTP_PASS` sont corrects.
-- Utilisez un **Mot de passe d'application** pour Gmail au lieu de votre mot de passe principal.
-
----
-
-## 🚀 Final Steps
-👉 Vérifiez `.env` configuration  
-👉 Installez les dépendances avec `npm install`  
-👉 Exécutez `npm run setup-db` pour initialiser la base de données  
-👉 Démarrez le serveur avec `npm start`  
-
-Profitez du développement de votre **plateforme d'investissement immobilier !** 🚀
 
