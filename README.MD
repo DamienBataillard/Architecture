@@ -52,7 +52,7 @@ Créez un fichier `.env` à la racine du projet et ajoutez-y les informations su
 # Configuration de la base de données
 DB_HOST=your_database_host
 DB_USER=your_database_user
-DB_PASSWORD=your_database_password
+DB_PASS=your_database_password
 DB_NAME=your_database_name
 DB_PORT=your_database_port
 
