@@ -1,9 +1,10 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const investmentController = require('../controllers/investmentController');
+const investmentController = require("../controllers/investmentController");
+const { verifyToken, checkRole } = require("../middleware/authMiddleware");
 
-// Routes pour les investissements
-router.post('/', investmentController.createInvestment); // Créer un investissement
-router.get('/:userId', investmentController.getInvestmentsByUser); // Lister les investissements d'un utilisateur
+// ✅ Secure investment routes
+router.post("/", verifyToken, checkRole(["investor"]), investmentController.createInvestment);
+router.get("/portfolio", verifyToken, checkRole(["investor"]), investmentController.getInvestmentsByUser);
 
 module.exports = router;

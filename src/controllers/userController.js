@@ -63,6 +63,11 @@ exports.registerUser = async (req, res) => {
             date_of_birth: date_of_birth || null,
         });
 
+        // ✅ Automatically create a wallet for investor users
+        if (role === "investor") {
+            await Wallet.create({ user_id: user.id, balance: 0 });
+        }
+
         // Supprimer le mot de passe de la réponse
         const { password: _, ...userWithoutPassword } = user.toJSON();
 

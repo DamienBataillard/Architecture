@@ -1,78 +1,102 @@
-const Wallet = require('../models/Wallet');
-const Transaction = require('../models/Transaction');
-const Stripe = require('stripe');
+const Wallet = require("../models/Wallet");
+const Transaction = require("../models/Transaction");
+const User = require("../models/User"); 
+const Stripe = require("stripe");
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+const sendEmail = require("../services/emailService"); // Assuming you have an email utility
 
-// Afficher le solde d'un utilisateur
+// ✅ Get Wallet Balance
 exports.getWallet = async (req, res) => {
-    const { userId } = req.params;
+    const user_id = req.user.userId; // Get from JWT token
 
     try {
-        const wallet = await Wallet.findOne({ where: { user_id: userId } });
+        let wallet = await Wallet.findOne({ where: { user_id } });
+
+        // ✅ If wallet doesn't exist, create a new one
         if (!wallet) {
-            return res.status(404).json({ message: 'Wallet not found' });
+            wallet = await Wallet.create({ user_id, balance: 0 });
         }
+
         res.status(200).json(wallet);
     } catch (error) {
-        res.status(500).json({ message: 'Error fetching wallet', error });
+        res.status(500).json({ message: "Error fetching wallet", error });
     }
 };
 
+// ✅ Add Funds to Wallet (Using Stripe)
 exports.addFunds = async (req, res) => {
     const { user_id, amount, paymentMethodId } = req.body;
 
-    // Validation des données
     if (!amount || amount <= 0) {
-        return res.status(400).json({ message: 'Invalid amount specified' });
+        return res.status(400).json({ message: "Invalid amount specified" });
     }
 
     try {
-        // Vérifier si le portefeuille existe
+        // ✅ Fetch user from the database
+        const user = await User.findOne({ where: { id: user_id } });
+
+        console.log(user)
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const email = user.email; // Extract email from the user object
+
+        // ✅ Verify if user wallet exists
         let wallet = await Wallet.findOne({ where: { user_id } });
         if (!wallet) {
             wallet = await Wallet.create({ user_id, balance: 0 });
         }
 
-        // Traitement du paiement avec Stripe
+        // ✅ Process payment with Stripe
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: Math.round(amount * 100), // Stripe attend un montant en centimes
-            currency: 'eur',
+            amount: Math.round(amount * 100), // Convert to cents
+            currency: "eur",
             payment_method: paymentMethodId,
-            confirm: true, // Confirme immédiatement le paiement
+            confirm: true,
+            automatic_payment_methods: {
+                enabled: true,
+                allow_redirects: "never" // 🔥 Prevents errors caused by missing `return_url`
+            },
         });
 
-        // Ajouter les fonds au portefeuille
+        // ✅ Add funds after successful payment
         wallet.balance += parseFloat(amount);
         await wallet.save();
 
-        // Enregistrer la transaction
+        // ✅ Log the transaction
         await Transaction.create({
             user_id,
-            type: 'deposit',
+            type: "deposit",
             amount,
         });
 
-        // Contenu de l'e-mail
+        // ✅ Send payment receipt email
         const emailContent = `
-            <h1>Reçu de paiement</h1>
-            <p>Bonjour,</p>
-            <p>Nous avons bien reçu votre paiement de <strong>${amount} EUR</strong>.</p>
-            <p>Votre portefeuille a été mis à jour avec succès.</p>
-            <p>Merci de votre confiance !</p>
+            <h1>Payment Receipt</h1>
+            <p>Hello ${user.name},</p>
+            <p>We have received your payment of <strong>${amount} EUR</strong>.</p>
+            <p>Your wallet balance has been updated successfully.</p>
+            <p>Thank you for your trust!</p>
             <hr />
-            <p><strong>Transaction ID :</strong> ${paymentIntent.id}</p>
+            <p><strong>Transaction ID:</strong> ${paymentIntent.id}</p>
         `;
 
-        // Envoyer un reçu par e-mail
-        await sendEmail(email, 'Reçu de paiement', emailContent);
+        await sendEmail(email, "Payment Receipt", emailContent);
 
         res.status(200).json({
-            message: 'Funds added successfully',
+            message: "Funds added successfully",
             wallet,
             paymentIntent,
         });
     } catch (error) {
-        res.status(500).json({ message: 'Error adding funds', error });
+        console.error("❌ Error processing payment:", error);
+
+        if (error.type === "StripeCardError") {
+            return res.status(400).json({ message: "Card was declined", error });
+        }
+
+        res.status(500).json({ message: "Error adding funds", error });
     }
 };
-

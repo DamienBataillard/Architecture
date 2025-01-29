@@ -102,43 +102,66 @@ exports.createInvestment = async (req, res) => {
     }
 };
 
-
-// Lister les investissements d'un utilisateur
+// ✅ Get Investments (Portfolio) by User
 exports.getInvestmentsByUser = async (req, res) => {
-    const { userId } = req.params;
+    const user_id = req.user.userId; // Get user ID from JWT
 
     try {
-        const investments = await Investment.findAll({ where: { user_id: userId } });
-        res.status(200).json(investments);
+        const investments = await Investment.findAll({
+            where: { user_id },
+            include: [
+                {
+                    model: Property,
+                    as: "property",
+                    attributes: ["id", "name", "description", "price", "status", "type"]
+                }
+            ]
+        });
+
+        if (!investments.length) {
+            return res.status(404).json({ message: "No investments found in your portfolio" });
+        }
+
+        const portfolio = investments.map(investment => ({
+            property: investment.property,
+            amount_invested: investment.amount,
+            share_percentage: investment.share_percentage
+        }));
+
+        res.status(200).json({ message: "Portfolio retrieved successfully", portfolio });
     } catch (error) {
-        res.status(500).json({ message: 'Error fetching investments', error });
+        console.error("❌ Error fetching portfolio:", error);
+        res.status(500).json({ message: "Error fetching portfolio", error });
     }
 };
 
+// ✅ Refund Investors if Property is Not Fully Funded
 exports.refundInvestors = async (property_id) => {
+    const transaction = await sequelize.transaction(); // Start transaction
+
     try {
-        const investments = await Investment.findAll({ where: { property_id } });
+        const investments = await Investment.findAll({ where: { property_id }, transaction });
 
         for (const investment of investments) {
-            const wallet = await Wallet.findOne({ where: { user_id: investment.user_id } });
+            const wallet = await Wallet.findOne({ where: { user_id: investment.user_id }, transaction });
 
             if (wallet) {
                 wallet.balance += investment.amount;
-                await wallet.save();
+                await wallet.save({ transaction });
 
-                // Enregistrer la transaction de remboursement
-                await Transaction.create({
-                    user_id: investment.user_id,
-                    type: 'refund',
-                    amount: investment.amount,
-                });
+                await Transaction.create(
+                    { user_id: investment.user_id, type: 'refund', amount: investment.amount },
+                    { transaction }
+                );
             }
 
-            await investment.destroy(); // Supprimer l'investissement
+            await investment.destroy({ transaction }); // Remove investment entry
         }
 
-        console.log(`Refunds completed for property ID: ${property_id}`);
+        await transaction.commit(); // Commit transaction
+        console.log(`✅ Refunds completed for property ID: ${property_id}`);
     } catch (error) {
-        console.error('Error processing refunds:', error);
+        await transaction.rollback(); // Rollback on error
+        console.error("❌ Error processing refunds:", error);
     }
 };
