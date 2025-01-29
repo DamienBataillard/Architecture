@@ -88,6 +88,7 @@ exports.createInvestment = async (req, res) => {
         // Vérifier si le financement est terminé après cet investissement
         if (totalInvested + amount === property.price) {
             property.status = 'funded'; // Mettre à jour le statut de la propriété
+            property.ownership_certified = true;
             await property.save({ transaction });
         }
 

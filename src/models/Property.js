@@ -37,6 +37,10 @@ const Property = sequelize.define(
         type: DataTypes.DATE,
         allowNull: false,
       },
+      ownership_certified: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false, // Initially false
+      }
     },
     {
       tableName: "properties",

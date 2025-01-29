@@ -1,8 +1,9 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const rentalIncomeController = require('../controllers/rentalIncomeController');
+const rentalIncomeController = require("../controllers/rentalIncomeController");
+const { verifyToken, checkRole } = require("../middleware/authMiddleware");
 
-// Route pour récupérer les revenus locatifs d'un utilisateur
-router.get('/:userId', rentalIncomeController.getRentalIncomeByUser);
+// ✅ Secure route to fetch rental income of a logged-in user
+router.get("/", verifyToken, checkRole(["investor"]), rentalIncomeController.getRentalIncomeByUser);
 
 module.exports = router;
