@@ -46,7 +46,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"johndoe@example.com\",\n    \"password\": \"securepassword\"\n}\n",
+							"raw": "{\n    \"email\": \"damiebtd@gmail.com\",\n    \"password\": \"securepassword\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -136,7 +136,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "<INSERT_YOUR_TOKEN_HERE>",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInJvbGUiOiJhZ2VudCIsImlhdCI6MTczODE0MTExOCwiZXhwIjoxNzM4MTQ0NzE4fQ.ufIOHzt5flYxHgGrEh4Pr30cIZDkNdatQpZdhEnA3pI",
 								"type": "text"
 							}
 						],
@@ -230,7 +230,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "<INSERT_YOUR_TOKEN_HERE>",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGUiOiJpbnZlc3RvciIsImlhdCI6MTczODE0MDc5NiwiZXhwIjoxNzM4MTQ0Mzk2fQ._PneaRL4x4YGYeMoRfMfxAEl1_OmA-DOb2l2RXWsfb4",
 								"type": "text"
 							}
 						],
@@ -265,12 +265,12 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "<INSERT_YOUR_TOKEN_HERE>",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGUiOiJpbnZlc3RvciIsImlhdCI6MTczODE0MjAyOSwiZXhwIjoxNzM4MTQ1NjI5fQ.ybXw5IIa9Ua3QehXQ_TcNXOV4JUp2VhQm0qG200jQVA",
 								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "http://localhost:3000/api/investments/1",
+							"raw": "http://localhost:3000/api/investments/portfolio",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -279,7 +279,75 @@
 							"path": [
 								"api",
 								"investments",
-								"1"
+								"portfolio"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Wallet",
+			"item": [
+				{
+					"name": "Add Funds",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGUiOiJpbnZlc3RvciIsImlhdCI6MTczODE0NDQ5NCwiZXhwIjoxNzM4MTQ4MDk0fQ.fqDBNOplKm68ovYqhh4J7vFuaM0PJIguZQPou93TRg0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": 1,\r\n    \"amount\": 5000,\r\n    \"paymentMethodId\": \"pm_card_visa\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/wallets/add-funds",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"wallets",
+								"add-funds"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Wallet Balance",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGUiOiJpbnZlc3RvciIsImlhdCI6MTczODE0MjUzMywiZXhwIjoxNzM4MTQ2MTMzfQ.6l66z3y5RviVzoZbrjSqktelMAVYgW_QBWPzCZYjSvA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/wallets/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"wallets",
+								""
 							]
 						}
 					},

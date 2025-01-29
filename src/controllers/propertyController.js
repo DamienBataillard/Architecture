@@ -2,13 +2,26 @@ const Property = require('../models/Property');
 
 // Ajouter une propriété
 exports.createProperty = async (req, res) => {
-    const { name, description, price, status, type, agent_id } = req.body;
+    const { name, description, price, type, agent_id } = req.body;
 
     try {
-        const property = await Property.create({ name, description, price, status, type, agent_id });
-        res.status(201).json({ message: 'Property created successfully', property });
+        // Calculate the funding deadline (2 months from now)
+        const fundingDeadline = new Date();
+        fundingDeadline.setMonth(fundingDeadline.getMonth() + 2);
+
+        const property = await Property.create({
+            name,
+            description,
+            price,
+            type,
+            agent_id,
+            status: "open", // Property is open for funding
+            funding_deadline: fundingDeadline, // Set deadline
+        });
+
+        res.status(201).json({ message: "Property created successfully", property });
     } catch (error) {
-        res.status(500).json({ message: 'Error creating property', error });
+        res.status(500).json({ message: "Error creating property", error });
     }
 };
 
