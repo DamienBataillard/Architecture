@@ -1,0 +1,51 @@
+{
+    "users": [
+      {
+        "name": "Alice Smith",
+        "email": "alice@example.com",
+        "password": "$2a$10$VwusMvrrOD6XOyU6Flh2uOscSU2P9Vs4t5UbGAAHEfyHIL0IPP6xC",
+        "role": "investor",
+        "phone": "0123456789",
+        "address": "123 Green St",
+        "date_of_birth": "1992-05-15"
+      },
+      {
+        "name": "Bob Johnson",
+        "email": "bob@example.com",
+        "password": "$2a$10$agdsnAqDMXwu2XS0jE.GEOfPhALnmI169s4abW9rNUgQSe92yuNuW",
+        "role": "agent",
+        "phone": "0987654321",
+        "address": "456 Blue Ave",
+        "date_of_birth": "1988-11-23"
+      }
+    ],
+    "properties": [
+      {
+        "name": "Luxury Apartment",
+        "description": "A beautiful 2-bedroom apartment.",
+        "price": 500000,
+        "status": "open",
+        "type": "apartment",
+        "agent_id": 2
+      },
+      {
+        "name": "Downtown Office",
+        "description": "Spacious office in city center.",
+        "price": 1200000,
+        "status": "pending",
+        "type": "building",
+        "agent_id": 2
+      }
+    ],
+    "wallets": [
+      {
+        "user_id": 1,
+        "balance": 10000
+      },
+      {
+        "user_id": 2,
+        "balance": 5000
+      }
+    ]
+  }
+  

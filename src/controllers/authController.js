@@ -17,6 +17,9 @@ exports.login = async (req, res) => {
 
         console.log('User found:', user.email);
 
+        console.log("🔍 Stored Hashed Password:", user.password);
+        console.log("🔑 Entered Password:", password);
+
         // Vérifier le mot de passe
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {

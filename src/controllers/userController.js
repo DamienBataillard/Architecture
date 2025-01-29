@@ -46,8 +46,11 @@ exports.registerUser = async (req, res) => {
             return res.status(400).json({ message: 'Email already in use' });
         }
 
-        // Hashage du mot de passe
-        const hashedPassword = await bcrypt.hash(password, 10);
+        // Hash the password before saving
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        console.log("🔒 Hashed Password:", hashedPassword);
 
         // Création de l'utilisateur
         const user = await User.create({
@@ -83,6 +86,8 @@ exports.loginUser = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
+
+        console.log(password)
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {

@@ -1,6 +1,9 @@
-const Investment = require('../models/Investment');
-const Property = require('../models/Property');
-const Wallet = require('../models/Wallet');
+const sequelize = require("../config/database");  // ✅ Import Sequelize instance
+const Investment = require("../models/Investment");
+const Property = require("../models/Property");
+const Wallet = require("../models/Wallet");
+const Transaction = require("../models/Transaction");
+
 
 // Créer un investissement
 exports.createInvestment = async (req, res) => {
